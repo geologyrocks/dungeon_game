@@ -11,7 +11,8 @@ def dungeon_builder():
         print('Have you played this game before? Enter Yes/No')
         entry = str(input('> ')).title()
         if entry == 'Yes' or entry == 'Y':
-            print('Aha, let\'s jump straight to it then.')
+            print('\nLet\'s jump straight to it then.')
+            time.sleep(0.7)
             break
         elif entry == 'No' or entry == 'N':
             print('The aim of the game is to move your character \o@ onto the secret door.')
@@ -24,7 +25,7 @@ def dungeon_builder():
             time.sleep(2)
             break
         else:
-            print('Please enter only Yes or No.')
+            print('I didn\'t understand that. Please only enter Yes or No.')
             time.sleep(0.7)
             continue
             
@@ -32,7 +33,7 @@ def dungeon_builder():
         while True:
             print('Firstly, what is your name?')
             name = input ('> ')
-            if len(name) > 1 and len(name) < 20:
+            if len(name) > 0 and len(name) < 20:
                 name = name
                 break
             else:
@@ -44,7 +45,7 @@ def dungeon_builder():
             print('How many rows would you like on your map, {}?'.format(name))
             try:
                 rows = int(input('> '))
-            except TypeError:
+            except ValueError:
                 print('That\'s not an integer!')
                 time.sleep(0.7)
                 continue
@@ -52,7 +53,7 @@ def dungeon_builder():
                 rows = int(rows)
                 break
             else:
-                print('Sorry, input must be an integer between 1 and 9, try again.')
+                print('Sorry, input must be an integer between 2 and 9, try again.')
                 time.sleep(0.7)
                 continue
 
@@ -60,7 +61,7 @@ def dungeon_builder():
             print('And how many columns?')
             try:
                 cols = int(input('> '))
-            except TypeError:
+            except ValueError:
                 print('That\'s not an integer!')
                 time.sleep(0.7)
                 continue
@@ -68,27 +69,33 @@ def dungeon_builder():
                 cols = int(cols)
                 break
             else:
-                print('Sorry, input must be an integer between 1 9, please try again.')
+                print('Sorry, input must be an integer between 2 and 9, please try again.')
                 time.sleep(0.7)
                 continue
         print('One moment please!')
         time.sleep(0.5)
         break
-    return [(x, y) for x in range(rows) for y in range(cols)]
+    return [(x, y) for x in range(cols) for y in range(rows)]
 
 def grid_drawer():
-    character_sprite = "|\o@"
-####  One or the other of these - depends on the format you want (blank rooms vs clear coordinates).
-##    dungeon = [['|_' for x in range(rows)] for y in range(cols)]
-    dungeon = [['|{},{}'.format(x,y) for x in range(rows)] for y in range(cols)]
+####  One or the other of these - depends on the upformat you want (blank rooms vs clear coordinates).
     x, y = player
+
+    dungeon = [['¦{},{}'.format(x,y) for x in range(cols)] for y in range(rows)]
+    character_sprite = '¦\o@'
     dungeon[y][x] = character_sprite
-####  Use the second print line if you've got the numbered cells
-##    print(' _' * (rows))
-    print(' ___' * (rows))
+    print('+' + '---+' * (cols))
     for row in dungeon:
-        print(''.join(row), end = '|\n')
-    print(' ̅̅̅' * (rows))
+        print(''.join(row), end = '¦\n')
+        print('+' + '---+' * (cols))   
+
+#    dungeon = [['¦ ' for y in range(cols)] for x in range(rows)]
+#    character_sprite = '¦#'
+#    dungeon[y][x] = character_sprite
+#    print('+' + '-+' * (cols))
+#    for row in dungeon:
+#        print(''.join(row), end = '¦\n')
+#        print('+' + '-+' * (cols)) 
 
 def get_locations():
     return random.sample(dungeon_builder(), 3)
@@ -112,13 +119,15 @@ def monster_location():
     x_player, y_player = player
     x_monster, y_monster = monster
     if abs(x_monster - x_player) <= 1 and abs(y_monster - y_player) <= 1:
-        print('You can hear the monster close by!')
+        print('\nYou can hear the monster close by!')
+        time.sleep(0.7)
         
 def door_location():
     x_player, y_player = player
     x_door, y_door = door
     if abs(x_door - x_player) <= 1 and abs(y_door - y_player) <= 1:
-        print('You can make out a faint ethereal glow!')
+        print('\nYou can make out a faint ethereal glow!')
+        time.sleep(0.7)
         
 def get_moves(player):
     global moves
@@ -127,32 +136,31 @@ def get_moves(player):
     x, y = player
     if x == 0:
         moves_permitted.remove('Left')
-    if x == rows-1:
+    if x == cols-1:
         moves_permitted.remove('Right')
     if y == 0:
         moves_permitted.remove('Up')
-    if y == cols-1:
+    if y == rows-1:
         moves_permitted.remove('Down')
     return moves_permitted
 
 def clear_screen():
-    print ("\n" * 100)
+    print ('\n' * 100)
 
 def game_restart():
     while True:
         time.sleep(1)
         print('Would you like to play again? Enter Yes/No.')
-        answer = input('> ')
-        answer = answer.title()
+        answer = input('> ').title()
         if answer == 'Yes' or answer == 'Y':
             clear_screen()
-            get_locations()
+            game_loop()
             break
         if answer == 'No' or answer == 'N':
             print('Goodbye {}!'.format(name))
             raise SystemExit(0)
         else:
-            print('I didn\'t understand that.')
+            print('I didn\'t understand that. Please only enter Yes or No.')
             continue
     
 def game_loop():
@@ -166,19 +174,17 @@ def game_loop():
         clear_screen()
         grid_drawer()
         player_location()
-    ##    print('The secret door is in room {}'.format(door))
-    ##    print('The monster is in room {}'.format(monster))
+        print('The secret door is in room {}'.format(door))
+        print('The monster is in room {}'.format(monster))
         monster_location()
         door_location()
         print('\nYou can move {}.'.format(', '.join(get_moves(player))))
         print('Or enter Quit to quit.')
 
-        move = input('> ')
-        move = move.title()
-
+        move = input('> ').title()
         if move == 'Quit':
             print('Goodbye {}!'.format(name))
-            break
+            raise SystemExit(0)
         elif move not in moves:
             print('{} is not a valid direction!\n'.format(move))
             time.sleep(1)
