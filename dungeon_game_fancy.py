@@ -1,14 +1,18 @@
 import random
 import time
 
+def clear_screen():
+    print ('\n' * 100)
+
 def dungeon_builder():
+    clear_screen()
     global rows
     global cols
     global name
     print('Welcome to the dungeon!')
     time.sleep(1)
     while True:
-        print('Have you played this game before? Enter Y/N.')
+        print('Would you like to know how to play the game? Enter Y/N.')
         entry = str(input('> ')).title()
         if entry == 'Yes' or entry == 'Y':
             print('\nLet\'s jump straight to it then.')
@@ -143,9 +147,6 @@ def get_moves(player):
     if y == rows-1:
         moves_permitted.remove('Down')
     return moves_permitted
-
-def clear_screen():
-    print ('\n' * 100)
 
 def game_restart():
     while True:
