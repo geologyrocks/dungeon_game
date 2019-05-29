@@ -1,4 +1,4 @@
-import random
+﻿import random
 import time
 
 def dungeon_builder():
@@ -174,8 +174,8 @@ def game_loop():
         clear_screen()
         grid_drawer()
         player_location()
-        print('The secret door is in room {}'.format(door))
-        print('The monster is in room {}'.format(monster))
+##        print('The secret door is in room {}'.format(door))
+##        print('The monster is in room {}'.format(monster))
         monster_location()
         door_location()
         print('\nYou can move {}.'.format(', '.join(get_moves(player))))
