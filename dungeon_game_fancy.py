@@ -8,30 +8,30 @@ def dungeon_builder():
     print('Welcome to the dungeon!')
     time.sleep(1)
     while True:
-        print('Have you played this game before? Enter Yes/No')
+        print('Have you played this game before? Enter Y/N.')
         entry = str(input('> ')).title()
         if entry == 'Yes' or entry == 'Y':
             print('\nLet\'s jump straight to it then.')
             time.sleep(0.7)
             break
         elif entry == 'No' or entry == 'N':
-            print('The aim of the game is to move your character \o@ onto the secret door.')
+            print('The aim of the game is to get your character \o@ to the secret door, which is hidden somewhere in the dungeon.')
             time.sleep(2)
-            print('Although armed with your trusty sword \ and shield @ , they\'ll be no match against the monster which is hiding in one of the rooms.')
+            print('Although armed with your trusty sword \ and shield @ , you know they\'ll be no match against the fearsome monster which is hiding somewhere in the dungeon.')
             time.sleep(2)
-            print('If you are 1 room away from the monster, you\'ll be able to hear it, so take care! \nIf you are 1 room away from the door, you\'ll be able to make out a faint glow.')
+            print('If you are 1 room away from the monster, you\'ll be able to hear it, so be careful! \nIf you are 1 room away from the door, you\'ll be able to make out a faint glow.')
             time.sleep(2)
-            print('The coordinate system comes from the top-left (0,0) right and down.')
+            print('The coordinate system comes from the top-left (0,0), right and down.')
             time.sleep(2)
             break
         else:
-            print('I didn\'t understand that. Please only enter Yes or No.')
+            print('I didn\'t understand that. Please only enter Yes/Y, or No/N.')
             time.sleep(0.7)
             continue
             
     while True:
         while True:
-            print('Firstly, what is your name?')
+            print('Firstly, what is your name?  It must be between 1 and 20 characters.')
             name = input ('> ')
             if len(name) > 0 and len(name) < 20:
                 name = name
@@ -42,7 +42,7 @@ def dungeon_builder():
                 continue
             
         while True:
-            print('How many rows would you like on your map, {}?'.format(name))
+            print('How tall would you like the dungeon to be, {}? \nEnter a number between 2 and 9.'.format(name))
             try:
                 rows = int(input('> '))
             except ValueError:
@@ -58,7 +58,7 @@ def dungeon_builder():
                 continue
 
         while True:
-            print('And how many columns?')
+            print('And how wide? Enter a number between 2 and 9.')
             try:
                 cols = int(input('> '))
             except ValueError:
@@ -150,7 +150,7 @@ def clear_screen():
 def game_restart():
     while True:
         time.sleep(1)
-        print('Would you like to play again? Enter Yes/No.')
+        print('Would you like to play again? Enter Y/N.')
         answer = input('> ').title()
         if answer == 'Yes' or answer == 'Y':
             clear_screen()
@@ -160,7 +160,7 @@ def game_restart():
             print('Goodbye {}!'.format(name))
             raise SystemExit(0)
         else:
-            print('I didn\'t understand that. Please only enter Yes or No.')
+            print('I didn\'t understand that. Please only enter Yes/Y, or No/N.')
             continue
     
 def game_loop():
