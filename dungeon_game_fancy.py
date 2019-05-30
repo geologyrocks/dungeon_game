@@ -9,16 +9,18 @@ def dungeon_builder():
     global rows
     global cols
     global name
+    global game_difficulty
+    permitted_game_difficulties = ['Easy', 'Medium', 'Hard']
     print('Welcome to the dungeon!')
     time.sleep(1)
     while True:
         print('Would you like to know how to play the game? Enter Y/N.')
         entry = str(input('> ')).title()
-        if entry == 'Yes' or entry == 'Y':
+        if entry == 'No' or entry == 'N':
             print('\nLet\'s jump straight to it then.')
             time.sleep(0.7)
             break
-        elif entry == 'No' or entry == 'N':
+        elif entry == 'Yes' or entry == 'Y':
             print('The aim of the game is to get your character \o@ to the secret door, which is hidden somewhere in the dungeon.')
             time.sleep(2)
             print('Although armed with your trusty sword \ and shield @ , you know they\'ll be no match against the fearsome monster which is hiding somewhere in the dungeon.')
@@ -31,54 +33,61 @@ def dungeon_builder():
         else:
             print('I didn\'t understand that. Please only enter Yes/Y, or No/N.')
             time.sleep(0.7)
-            continue
-            
+            continue    
     while True:
-        while True:
-            print('Firstly, what is your name?  It must be between 1 and 20 characters.')
-            name = input ('> ')
-            if len(name) > 0 and len(name) < 20:
-                name = name
-                break
-            else:
-                print('Sorry, your name must be between 1 and 20 characters, try again.')
-                time.sleep(0.7)
-                continue
-            
-        while True:
-            print('How tall would you like the dungeon to be, {}? \nEnter a number between 2 and 9.'.format(name))
-            try:
-                rows = int(input('> '))
-            except ValueError:
-                print('That\'s not an integer!')
-                time.sleep(0.7)
-                continue
-            if rows > 1 and rows < 10:
-                rows = int(rows)
-                break
-            else:
-                print('Sorry, input must be an integer between 2 and 9, try again.')
-                time.sleep(0.7)
-                continue
+        print('Firstly, what is your name?  It must be between 1 and 20 characters.')
+        name = input ('> ')
+        if len(name) > 0 and len(name) < 20:
+            name = name
+            break
+        else:
+            print('Sorry, your name must be between 1 and 20 characters, try again.')
+            time.sleep(0.7)
+            continue
+        
+    while True:
+        print('How tall would you like the dungeon to be, {}? \nEnter a number between 2 and 9.'.format(name))
+        try:
+            rows = int(input('> '))
+        except ValueError:
+            print('That\'s not an integer!')
+            time.sleep(0.7)
+            continue
+        if rows > 1 and rows < 10:
+            rows = int(rows)
+            break
+        else:
+            print('Sorry, input must be an integer between 2 and 9, try again.')
+            time.sleep(0.7)
+            continue
 
-        while True:
-            print('And how wide? Enter a number between 2 and 9.')
-            try:
-                cols = int(input('> '))
-            except ValueError:
-                print('That\'s not an integer!')
-                time.sleep(0.7)
-                continue
-            if cols > 1 and cols < 10:
-                cols = int(cols)
-                break
-            else:
-                print('Sorry, input must be an integer between 2 and 9, please try again.')
-                time.sleep(0.7)
-                continue
-        print('One moment please!')
-        time.sleep(0.5)
-        break
+    while True:
+        print('And how wide? Enter a number between 2 and 9.')
+        try:
+            cols = int(input('> '))
+        except ValueError:
+            print('That\'s not an integer!')
+            time.sleep(0.7)
+            continue
+        if cols > 1 and cols < 10:
+            cols = int(cols)
+            break
+        else:
+            print('Sorry, input must be an integer between 2 and 9, please try again.')
+            time.sleep(0.7)
+            continue
+    
+    while True:
+        print('What difficulty level would you like? Enter Easy, Medium or Hard.\nEasy level means you\'ll be able to detect both the door and the monster;\nMedium level means you\'ll only be able to detect the door;\nHard level means you can\'t detect either of them!')
+        entry = input('> ').title()
+        if entry not in permitted_game_difficulties:
+           print('I didn\'t understand that. Please only enter Easy, Medium or Hard.')
+           continue
+        else:
+          game_difficulty = entry
+          break
+    print('One moment please!')
+    time.sleep(0.5)
     return [(x, y) for x in range(cols) for y in range(rows)]
 
 def grid_drawer():
@@ -177,8 +186,13 @@ def game_loop():
         player_location()
 ##        print('The secret door is in room {}'.format(door))
 ##        print('The monster is in room {}'.format(monster))
-        monster_location()
-        door_location()
+        if game_difficulty == 'Easy':
+          monster_location()
+          door_location()
+        elif game_difficulty == 'Medium':
+          door_location()
+        else:
+          pass
         print('\nYou can move {}.'.format(', '.join(get_moves(player))))
         print('Or enter Quit to quit.')
 
