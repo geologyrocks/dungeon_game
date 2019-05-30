@@ -1,6 +1,8 @@
 import random
 import time
 
+win_loss_counter = [0,0] 
+
 def clear_screen():
     print ('\n' * 100)
 
@@ -17,7 +19,7 @@ def dungeon_builder():
         print('Would you like to know how to play the game? Enter Y/N.')
         entry = str(input('> ')).title()
         if entry == 'No' or entry == 'N':
-            print('\nLet\'s jump straight to it then.')
+            print('Let\'s jump straight to it then.\n')
             time.sleep(0.7)
             break
         elif entry == 'Yes' or entry == 'Y':
@@ -81,7 +83,7 @@ def dungeon_builder():
         print('What difficulty level would you like? Enter Easy, Medium or Hard.\nEasy level means you\'ll be able to detect both the door and the monster;\nMedium level means you\'ll only be able to detect the door;\nHard level means you can\'t detect either of them!')
         entry = input('> ').title()
         if entry not in permitted_game_difficulties:
-           print('I didn\'t understand that. Please only enter Easy, Medium or Hard.')
+           print('I didn\'t understand that. Please only enter Easy, Medium or Hard.\n')
            continue
         else:
           game_difficulty = entry
@@ -160,6 +162,7 @@ def get_moves(player):
 def game_restart():
     while True:
         time.sleep(1)
+        print('You have won {} games and lost {} games'.format(win_loss_counter[0],win_loss_counter[1]))
         print('Would you like to play again? Enter Y/N.')
         answer = input('> ').title()
         if answer == 'Yes' or answer == 'Y':
@@ -212,9 +215,11 @@ def game_loop():
             player = move_player(player, move)
         if player == door:
             print('{} has found the secret door!'.format(name))
+            win_loss_counter[0] += 1
             game_restart()
         if player == monster:
             print('{} has been eaten by the monster!'.format(name))
+            win_loss_counter[1] += 1
             game_restart()
         else:
             continue
