@@ -162,7 +162,7 @@ def get_moves(player):
 def game_restart():
     while True:
         time.sleep(1)
-        print('You have won {} games and lost {} games'.format(win_loss_counter[0],win_loss_counter[1]))
+        print('You have won {} games and lost {} games.'.format(win_loss_counter[0],win_loss_counter[1]))
         print('Would you like to play again? Enter Y/N.')
         answer = input('> ').title()
         if answer == 'Yes' or answer == 'Y':
@@ -226,5 +226,4 @@ def game_loop():
 
 game_loop()
 ####    Monster moves too?
-####    You can hear the monster/door faintly if <2 cell away
-####    You can't hear {object} if {object} >2 cells away?
+####    Cursor keys to move?
